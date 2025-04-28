@@ -1,70 +1,26 @@
-let myLibrary = [];
+import Library from './js/library.js';
 const listBookEl = document.getElementById("list-book")
 const bookCard = document.getElementById("bookCard")
 const btnAddBook = document.getElementById("btn-add-book")
 const searchBtn = document.getElementById("search-btn")
-const addBookModal = document.getElementById("add-book-modal")
+const modal = document.getElementById("modal")
 const addBookModalBtn = document.getElementById("add-book-modal-btn");
 const modalTitle = document.getElementById("modal-title");
-const addBookForm = document.getElementById("add-book-form")
+const addBookForm = document.getElementById("add-book-form");
+const closeModalBtn = document.getElementById("close-modal-btn")
 
 
-function Book(id, title, author, pages, isRead){
-  this.id = id;
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.isRead = isRead
-}
 
-
-function addBookToLibrary(title, author, pages, isRead){
-  const book = new Book(crypto.randomUUID(),title, author, pages,isRead)
-
-  myLibrary.push(book);
-  addBookModal.style.display ="none"
-  
-}
-
-addBookToLibrary("go", "udin", 120, false);
-addBookToLibrary("javascript", "ucup", 110, false);
-addBookToLibrary("python", "uus", 20, true);
-
-function deleteBookFromLibrary(bookId){
-  return myLibrary = myLibrary.filter((book)=> book.id !== bookId)
-}
-
-function updateData(data){
-  const book = myLibrary.find(b => b.id === data.id)
-
-  if(book) {
-    book.title = data.title;
-    book.author = data.author;
-    book.pages = data.pages;
-    book.isRead = data.isRead
-  }
-}
-function editStatusReadingBook(bookId) {
-  const book = myLibrary.find(b => b.id === bookId);
-  if (book) {
-    book.isRead = !book.isRead; // toggle status
-  }
-}
+const library = new Library();
 
 searchBtn.onclick = () => {
-  let query = document.getElementById("search-book").value
+  let query = document.getElementById("search-book").value;
+  const filteredBooks = library.findBooks(query)
+  renderBooks(filteredBooks)
   searchBook(query)
 };
-function searchBook(query){
-  const filteredBooks = myLibrary.filter(book => 
-    book.title.toLowerCase().includes(query) ||
-    book.author.toLowerCase().includes(query)
-  );
-    renderBooks(filteredBooks)
-}
 
-
-function renderBooks(books = myLibrary) {
+function renderBooks(books = library.getBook()) {
   const listBookEl = document.getElementById("list-books");
   listBookEl.innerHTML = ""; 
 
@@ -88,7 +44,7 @@ function renderBooks(books = myLibrary) {
 
     const status = document.createElement("p");
     status.className = "book-status";
-    status.innerHTML = `<strong>Status:</strong> ${book.isRead ? "Read" : "Not Read"}`;
+    status.innerHTML = `<strong>Status:</strong> ${book.isRead ? "Read" : "Not read"}`;
 
     const actions = document.createElement("div");
     actions.className = "book-actions";
@@ -97,40 +53,47 @@ function renderBooks(books = myLibrary) {
     editBtn.className = "edit-btn";
     editBtn.textContent = "✏️ Edit";
     editBtn.onclick = ()=> {
-      btnAddBook.remove()
-      addBookModal.style.display = "block";
-      const oldBtn = document.querySelector(".btn-edit");
-  if (oldBtn) oldBtn.remove();
-      modalTitle.innerHTML = "Edit Book";
-      const title = document.getElementById("title").value = book.title;
-      const author = document.getElementById("author").value = book.author;
-      const pages = document.getElementById("pages").value = book.pages;
-      const isRead = document.getElementById("isRead").checked = book.isRead;
+    btnAddBook.remove()
+    modal.style.display = "block";
+    const oldBtn = document.querySelector(".btn-edit");
+    if (oldBtn) oldBtn.remove();
+    modalTitle.innerHTML = "Edit Book";
+    const title = document.getElementById("title").value = book.title;
+    const author = document.getElementById("author").value = book.author;
+    const pages = document.getElementById("pages").value = book.pages;
+    const isRead = document.getElementById("isRead").checked = book.isRead;
 
-  const btnEdit = document.createElement("button");
-      btnEdit.textContent = "Update Book";
-      btnEdit.className = "btn-edit"
-      addBookForm.appendChild(btnEdit)
-      btnEdit.onclick = (e) => {
-        e.preventDefault()
-        const updatedTitle = document.getElementById("title").value;
-        const updatedAuthor = document.getElementById("author").value;
-        const updatedPages = document.getElementById("pages").value;
-        const updatedIsRead = document.getElementById("isRead").checked;
-    
-        const updatedData = {
-          id: book.id, 
-          title: updatedTitle,
-          author: updatedAuthor,
-          pages: updatedPages,
-          isRead: updatedIsRead
-        };
-  
-        updateData(updatedData);
-        renderBooks()
-        addBookModal.style.display = "none";
-        resetForm()
+    const btnEdit = document.createElement("button");
+    btnEdit.textContent = "Update Book";
+    btnEdit.className = "btn-edit"
+    addBookForm.appendChild(btnEdit)
+    btnEdit.onclick = (e) => {
+      e.preventDefault()
+      const updatedTitle = document.getElementById("title").value;
+      const updatedAuthor = document.getElementById("author").value;
+      const updatedPages = document.getElementById("pages").value;
+      const updatedIsRead = document.getElementById("isRead").checked;
+      
+      const updatedData = {
+        id: book.id, 
+        title: updatedTitle,
+        author: updatedAuthor,
+        pages: updatedPages,
+        isRead: updatedIsRead
+      };
+
+      const validate = library.validateField(updatedData.title, updatedData.author, updatedData.pages, updatedData.isRead)
+      if(validate){
+        alert("Field cannot be empty") 
+        return
       }
+      library.updateBook(updatedData)
+      modal.style.display = "none";
+      addBookForm.appendChild(btnAddBook)
+      btnEdit.remove()
+      renderBooks()
+      resetForm()
+    }
       
     };
 
@@ -141,12 +104,11 @@ function renderBooks(books = myLibrary) {
     deleteBtn.addEventListener("click", () => {
       let deleteConf = confirm("Delete "+ book.title + "? ")
       if(deleteConf){
-        deleteBookFromLibrary(book.id)
+        library.removeBook(book.id)
         renderBooks();
       }
     });
 
-    // Tempel semuanya
     actions.appendChild(editBtn);
     actions.appendChild(deleteBtn);
 
@@ -160,12 +122,6 @@ function renderBooks(books = myLibrary) {
   });
 }
 
-renderBooks()
-
-console.log(myLibrary);
-
-
-
 
 btnAddBook.onclick = (e)=> {
   e.preventDefault();
@@ -175,32 +131,42 @@ btnAddBook.onclick = (e)=> {
   const pages = document.getElementById("pages").value
   const isRead = document.getElementById("isRead").checked;
 
-  if(title === '' || author === '' || pages === '' || isRead === ''){
-    alert("tidak boleh kosong") 
+  if(library.validateField(title, author, pages,isRead)){
+    alert("Field cannot be empty") 
     return
   }
 
-  addBookToLibrary(title, author, pages, isRead)
+  library.addBook(title, author, pages, isRead);
+  modal.style.display ="none"
   renderBooks();
   resetForm()
 }
 
 addBookModalBtn.onclick = ()=> {
-  addBookModal.style.display = "block"
+  modal.style.display = "block";
+  addBookForm.appendChild(btnAddBook)
+  editBtn = document.querySelector('.btn-edit').remove();
+  btnAddBook.append()
 }
 
 
-window.onclick = (e) => {
-  if(e.target == addBookModal ){
-    addBookModal.style.display = "none";
-    resetForm()
-  }
-}
 
 function resetForm() {
   const title = document.getElementById("title").value = null
   const author = document.getElementById("author").value = null
   const pages = document.getElementById("pages").value = null
   const isRead = document.getElementById("isRead").checked = false;
-
+  
 }
+
+closeModalBtn.onclick = () => modal.style.display ="none"
+window.onclick = (e) => {
+  if(e.target == modal ){
+    modal.style.display = "none";
+    resetForm()
+  }
+}
+
+renderBooks()
+
+console.log(library.getBook());

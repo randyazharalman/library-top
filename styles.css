@@ -127,7 +127,7 @@ main > .header-section #search-btn {
 }
 
 
-main > #add-book-modal {
+main > #modal {
   display: none;
   position: fixed;
   z-index: 2;
@@ -140,19 +140,30 @@ main > #add-book-modal {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-main > #add-book-modal .modal-content{
+main > #modal .modal-content{
   background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 10% auto; /* 15% from the top and centered */
   border: 1px solid #888;
   border-radius: 10px;
   width: 40%; 
 }
 
-main > #add-book-modal .modal-header {
+main > #modal .modal-header {
   border-bottom: 1px solid gray;
   padding: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-main > #add-book-modal .modal-content form{
+
+main > #modal .modal-header #close-modal-btn {
+  background-color: #f1f1f1;
+  color: gray;
+  width: 5em;
+  font-size: 1em;
+}
+
+main > #modal .modal-content form{
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -161,7 +172,7 @@ main > #add-book-modal .modal-content form{
 
 }
 
-main > #add-book-modal .modal-content form input {
+main > #modal .modal-content form input {
   padding: 8px;
   width: 80%;
   justify-content: center;
@@ -173,7 +184,7 @@ main > #add-book-modal .modal-content form input {
   font-weight:400;
   border: 1px solid #A6AEBF;
 }
-main > #add-book-modal .modal-content form label {
+main > #modal .modal-content form label {
   display: flex;
   flex-direction: row;
   padding: 8px;
@@ -187,14 +198,14 @@ main > #add-book-modal .modal-content form label {
   font-weight:400;
   /* border: 1px solid #A6AEBF; */
 }
-main > #add-book-modal .modal-content form label input {
+main > #modal .modal-content form label input {
   display: flex;
   flex-direction: row;
   padding: 8px;
   width: 50%;
 }
 
-main > #add-book-modal  .modal-content  button {
+main > #modal  .modal-content  button {
   padding: 12px;
   border: none;
   border-radius: 10px;
