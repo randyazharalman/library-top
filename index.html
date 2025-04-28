@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Library</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <h1>📚 My Library</h1>
+
+    <!-- Form Tambah Buku -->
+    <input type="text" id="search-book">
+    <button id="search-btn">search</button>
+    <form id="add-book-form">
+      <input type="text" id="title" placeholder="Title" required>
+      <input type="text" id="author" placeholder="Author" required>
+      <input type="number" id="pages" placeholder="Pages" required>
+      <label>
+        <input type="checkbox" id="isRead">
+        Already Read
+      </label>
+      <button type="submit" id="btn-add-book">Add Book</button>
+    </form>
+
+    <!-- Tempat Card Buku -->
+    <div id="list-books"></div>
+  </main>
+
+  <script src="index.js"></script>
+</body>
+</html>

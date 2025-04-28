@@ -1,0 +1,80 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: #f0f0f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+main > h1{
+  text-align: center;
+  margin: 1rem;
+}
+
+#list-books {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto; /* ini penting */
+  padding: 1em;
+  white-space: nowrap;
+}
+.book-card {
+  flex: 0 0 auto;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 2em;
+  max-width: 300px;
+  width: 100%;
+}
+
+.book-card h2 {
+  margin-bottom: 0.5em;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.book-card p {
+  margin: 0.4em 0;
+  color: #555;
+}
+
+.book-actions {
+  margin-top: 1.5em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.book-actions button {
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-btn {
+  background-color: #ffca28;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #ef5350;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #f4b400;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
