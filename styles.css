@@ -7,23 +7,69 @@
 
 body {
   background-color: #f0f0f5;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
   height: 100vh;
+  padding: 5rem;
 }
-
+main {
+  width: 100%;
+  border: 6px solid skyblue;  
+  top: 0;  
+  padding: 1rem;
+  border-radius: 20px;
+}
 main > h1{
   text-align: center;
   margin: 1rem;
 }
 
+main > .header-section {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+}
+
+main > .header-section input {
+  outline: none;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1em;
+  color: gray;
+  font-weight: bold;
+}
+
+main .header-section button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+main > .header-section #add-book-modal-btn{
+  background-color: #67AE6E;
+  color: white;
+}
+
+main > .header-section #search-btn {
+  background-color: #60B5FF;
+  color: white;
+}
+
 #list-books {
   display: flex;
   gap: 20px;
-  overflow-x: auto; /* ini penting */
+  /* width: 100%; */
+  justify-content: center;
+  /* border: 1px solid; */
+  /* overflow-x: auto; ini penting */
   padding: 1em;
-  white-space: nowrap;
+  flex-wrap: wrap;
 }
 .book-card {
   flex: 0 0 auto;
@@ -32,7 +78,8 @@ main > h1{
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   padding: 2em;
   max-width: 300px;
-  width: 100%;
+  border: 1px solid tomato;
+  width: 50%;
 }
 
 .book-card h2 {
@@ -77,4 +124,94 @@ main > h1{
 
 .delete-btn:hover {
   background-color: #d32f2f;
+}
+
+
+main > #add-book-modal {
+  display: none;
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+main > #add-book-modal .modal-content{
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  border: 1px solid #888;
+  border-radius: 10px;
+  width: 40%; 
+}
+
+main > #add-book-modal .modal-header {
+  border-bottom: 1px solid gray;
+  padding: 1em;
+}
+main > #add-book-modal .modal-content form{
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+}
+
+main > #add-book-modal .modal-content form input {
+  padding: 8px;
+  width: 80%;
+  justify-content: center;
+  border-radius: 10px;
+  outline: none;
+  padding: 10px;
+  color: gray;
+  font-size: 1em;
+  font-weight:400;
+  border: 1px solid #A6AEBF;
+}
+main > #add-book-modal .modal-content form label {
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  width: 50%;
+  justify-content: start;
+  border-radius: 10px;
+  color: gray;
+  outline: none;
+
+  font-size: 1em;
+  font-weight:400;
+  /* border: 1px solid #A6AEBF; */
+}
+main > #add-book-modal .modal-content form label input {
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  width: 50%;
+}
+
+main > #add-book-modal  .modal-content  button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  background-color: #60B5FF;
+  color: white;
+}
+
+.btn-edit {
+  padding: 20px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  background-color: #ef5350;
+  color: white;
 }
